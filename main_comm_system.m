@@ -11,14 +11,15 @@ params.rrcFilterSpan    = 10;        % symbols
 params.convCodeRate     = 1/2;
 params.constraintLength = 7;
 params.modulation       = 'BPSK';    % 'BPSK' or 'QPSK'
-params.bitRate          = 1e6;       % 1 Mbps
-params.carrierFreq      = 10e6;      % 10 MHz carrier
+params.bitRate          = 1e6;       % 1 Mbps information bit rate
+params.carrierFreq      = 2e6;       % 2 MHz IF carrier (must be < Fs/2)
 params.EbN0_dB_range    = -2:1:12;   % Eb/N0 sweep range (dB)
 
 % Derived parameters
-params.symbolRate = params.bitRate * params.convCodeRate;
+% Rate-1/2 encoder doubles the bit stream, so encoded symbol rate = bitRate / codeRate
+params.symbolRate = params.bitRate / params.convCodeRate;   % encoded chip rate
 if strcmpi(params.modulation, 'QPSK')
-    params.symbolRate = params.symbolRate / 2;
+    params.symbolRate = params.symbolRate / 2;   % 2 bits per QPSK symbol
 end
 params.Fs = params.samplesPerSymbol * params.symbolRate;  % sampling frequency
 

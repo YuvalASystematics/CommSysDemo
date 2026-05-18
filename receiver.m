@@ -8,8 +8,8 @@ sps = params.samplesPerSymbol;
 fc  = params.carrierFreq;
 
 %% 1. Bandpass Filter (reject out-of-band noise)
-bpfFreqs = [fc - params.symbolRate*(1+params.rrcRolloff), ...
-            fc + params.symbolRate*(1+params.rrcRolloff)];
+halfBW   = params.symbolRate * (1 + params.rrcRolloff) / 2;
+bpfFreqs = [fc - halfBW, fc + halfBW];
 bpfFreqNorm = min(max(bpfFreqs / (Fs/2), 0.01), 0.99);
 [bpfB, bpfA] = butter(4, bpfFreqNorm, 'bandpass');
 rxBPF = filtfilt(bpfB, bpfA, rxSignal);

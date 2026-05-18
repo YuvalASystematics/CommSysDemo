@@ -30,9 +30,9 @@ carrier = exp(1j * 2 * pi * params.carrierFreq * t);
 rfSignal = real(baseband .* carrier);   % real bandpass signal
 
 %% 5. Transmit Bandpass Filter (limit OOB emissions)
-bpfBW   = 2 * (1 + params.rrcRolloff) / params.samplesPerSymbol;  % normalized
-bpfFreqs = [params.carrierFreq - params.symbolRate * (1+params.rrcRolloff), ...
-            params.carrierFreq + params.symbolRate * (1+params.rrcRolloff)];
+% BPF spans ±halfBW around the carrier frequency
+halfBW   = params.symbolRate * (1 + params.rrcRolloff) / 2;
+bpfFreqs = [params.carrierFreq - halfBW, params.carrierFreq + halfBW];
 bpfFreqNorm = bpfFreqs / (params.Fs / 2);
 bpfFreqNorm = min(max(bpfFreqNorm, 0.01), 0.99);   % clamp to valid range
 [bpfB, bpfA] = butter(4, bpfFreqNorm, 'bandpass');
