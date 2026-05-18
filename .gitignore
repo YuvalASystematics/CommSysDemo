@@ -1,0 +1,12 @@
+﻿# MATLAB
+*.asv
+*.mex*
+*.mlapp~
+*.slxc
+/slprj/
+/codegen/
+.simscapeResultsCache/
+
+# OS
+.DS_Store
+Thumbs.db
